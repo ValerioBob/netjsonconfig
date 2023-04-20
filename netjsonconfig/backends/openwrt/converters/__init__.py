@@ -1,4 +1,5 @@
 from .default import Default
+from .firewall import Firewall
 from .general import General
 from .interfaces import Interfaces
 from .led import Led
@@ -24,4 +25,5 @@ __all__ = [
     'Switch',
     'WireguardPeers',
     'Wireless',
+    'Firewall',
 ]
