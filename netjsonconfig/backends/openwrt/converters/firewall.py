@@ -96,13 +96,18 @@ class Firewall(OpenWrtConverter):
             )
             if "proto" in rule:
                 # If proto is a single value, then force it not to be in a list so that
-                # the UCI uses "option" rather than "list". If proto is only "tcp"
-                # and"udp", we can force it to the single special value of "tcpudp".
+                # the UCI uses "option" rather than "list"
                 proto = rule["proto"]
                 if len(proto) == 1:
                     rule["proto"] = proto[0]
-                elif set(proto) == {"tcp", "udp"}:
-                    rule["proto"] = "tcpudp"
+
+            # If src_ip and dest_ip contains only a single value, force the use of a UCI "option"
+            # rather than "list".
+            for option in ["src_ip", "dest_ip"]:
+                if option in rule:
+                    ip = rule[option]
+                    if len(ip) == 1:
+                        rule[option] = ip[0]
             resultdict.update(rule)
             result.append(resultdict)
         return result
@@ -127,8 +132,14 @@ class Firewall(OpenWrtConverter):
                 proto = redirect["proto"]
                 if len(proto) == 1:
                     redirect["proto"] = proto[0]
-                elif set(proto) == {"tcp", "udp"}:
-                    redirect["proto"] = "tcpudp"
+
+            # If src_ip and dest_ip contains only a single value, force the use of a UCI "option"
+            # rather than "list".
+            for option in ["src_ip", "dest_ip"]:
+                if option in redirect:
+                    ip = redirect[option]
+                    if len(ip) == 1:
+                        redirect[option] = ip[0]
 
             resultdict.update(redirect)
             result.append(resultdict)
@@ -206,12 +217,19 @@ class Firewall(OpenWrtConverter):
         ]:
             if param in defaults:
                 defaults[param] = self.__netjson_generic_boolean(defaults[param])
-        for param in ["synflood_limit", "synflood_burst"]:
+        for param in ["synflood_limit", "synflood_burst", "synflood_rate"]:
             if param in defaults:
                 defaults[param] = int(defaults[param])
         return self.type_cast(defaults)
 
     def __netjson_rule(self, rule):
+
+        for option in ["src_ip", "dest_ip"]:
+            if option in rule:
+                ip = rule[option]
+                if not isinstance(ip, list):
+                    rule[option] = ip.split()
+
         for param in ["enabled", "utc_time"]:
             if param in rule:
                 rule[param] = self.__netjson_generic_boolean(rule[param])
@@ -252,6 +270,12 @@ class Firewall(OpenWrtConverter):
         return self.type_cast(forwarding)
 
     def __netjson_redirect(self, redirect):
+        for option in ["src_ip", "dest_ip"]:
+            if option in redirect:
+                ip = redirect[option]
+                if not isinstance(ip, list):
+                    redirect[option] = ip.split()
+
         if "proto" in redirect:
             redirect["proto"] = self.__netjson_generic_proto(redirect["proto"])
 

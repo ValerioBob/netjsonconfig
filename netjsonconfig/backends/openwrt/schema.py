@@ -14,31 +14,34 @@ wireguard_peers = wireguard["peers"]["items"]["properties"]
 interface_settings = default_schema["definitions"]["interface_settings"]["properties"]
 
 # The following regex will match against a single valid port, or a port range e.g. 1234-5000
-port_range_regex = "^(6553[0-5]|655[0-2][0-9]|65[0-4][0-9]{2}|6[0-4][0-9]{3}|[1-5][0-9]{4}|[0-9]{1,4})$|^(6553[0-5]|655[0-2][0-9]|65[0-4][0-9]{2}|6[0-4][0-9]{3}|[1-5][0-9]{4}|[0-9]{1,4})-(6553[0-5]|655[0-2][0-9]|65[0-4][0-9]{2}|6[0-4][0-9]{3}|[1-5][0-9]{4}|[0-9]{1,4})$"  # noqa
+port_range_regex = "(^(?=\s*$))|(^(6553[0-5]|655[0-2][0-9]|65[0-4][0-9]{2}|6[0-4][0-9]{3}|[1-5][0-9]{4}|[0-9]{1,4})$|^(6553[0-5]|655[0-2][0-9]|65[0-4][0-9]{2}|6[0-4][0-9]{3}|[1-5][0-9]{4}|[0-9]{1,4})-(6553[0-5]|655[0-2][0-9]|65[0-4][0-9]{2}|6[0-4][0-9]{3}|[1-5][0-9]{4}|[0-9]{1,4})$)"  # noqa
 
 # Match against a MAC address
-mac_address_regex = "^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$"
+mac_address_regex = "(^(?=\s*$))|(^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$)"
 
 # Match against a yyyy-mm-dd format date. Note that draft07 of the JSON schema standard
 # include a "date" pattern which can replace this.
 # https://json-schema.org/understanding-json-schema/reference/string.html
-date_regex = "^([0-9]{4})-(0[1-9]|[12][0-9]|3[01])-([012][0-9]|[3][01])$"
+date_regex = "(^(?=\s*$))|(^([0-9]{4})-(0[1-9]|[12][0-9]|3[01])-([012][0-9]|[3][01])$)"
 
 # Match against a time in the format hh:mm:ss
-time_regex = "^([01][0-9]|2[0123])(:([012345][0-9])){2}$"
+time_regex = "(^(?=\s*$))|(^([01][0-9]|2[0123])(:([012345][0-9])){2}$)"
 
 # Match against a range of IPv4 addresses
-ipv4_cidr_regex = "^([0-9]{1,3}.){3}[0-9]{1,3}(/([0-9]|[1-2][0-9]|3[0-2]))?$"
+ipv4_cidr_regex = (
+    "(^(?=\s*$))|(^([0-9]{1,3}.){3}[0-9]{1,3}(\/([0-9]|[1-2][0-9]|3[0-2]))?$)"
+)
 
 # Match against a negatable range of IPv4 addresses. This variant allows for an optional
 # "!" in front of the CIDR.
 ipv4_negatable_cidr_regex = (
-    "^!?([0-9]{1,3}.){3}[0-9]{1,3}(/([0-9]|[1-2][0-9]|3[0-2]))?$"
+    "(^(?=\s*$))|(^!?([0-9]{1,3}.){3}[0-9]{1,3}(\/([0-9]|[1-2][0-9]|3[0-2]))?$)"
 )
 
 # Match against a range of IPv6 addresses
-ipv6_cidr_regex = "^s*((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:)))(%.+)?s*(/([0-9]|[1-9][0-9]|1[0-1][0-9]|12[0-8]))?$"  # noqa
+ipv6_cidr_regex = "(^(?=\s*$))|(^s*((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:)))(%.+)?s*(\/([0-9]|[1-9][0-9]|1[0-1][0-9]|12[0-8]))?$)"  # noqa
 
+ipv4_and_ipv6_cidr_regex = "(^(?=\s*$))|((^([0-9]{1,3}\.){3}[0-9]{1,3}(\/([0-9]|[1-2][0-9]|3[0-2]))?$)|(^s*((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:)))(%.+)?s*(\/([0-9]|[1-9][0-9]|1[0-1][0-9]|12[0-8]))?)$)"  # noqa
 
 schema = merge_config(
     default_schema,
@@ -961,13 +964,13 @@ schema = merge_config(
 firewall_definitions = {
     "name": {
         "type": "string",
-        "title": "name",
+        "title": "Name",
         "description": "Name of redirect",
         "propertyOrder": 1,
     },
     "enabled": {
         "type": "boolean",
-        "title": "enable",
+        "title": "Enable",
         "description": "Enable this configuration entity.",
         "default": True,
         "format": "checkbox",
@@ -975,7 +978,7 @@ firewall_definitions = {
     },
     "zone_name": {
         "type": "string",
-        "title": "A Zone name",
+        "title": "Zone name",
         "description": "A unique zone name. Has a maximum" "length of 11 characters.",
         "maxLength": 11,
         "propertyOrder": 3,
@@ -990,7 +993,7 @@ firewall_definitions = {
     },
     "src": {
         "type": "string",
-        "title": "src",
+        "title": "Source zone",
         "description": "Specifies the traffic source zone. "
         "Must refer to one of the defined zone names. "
         "For typical port forwards this usually is wan.",
@@ -998,28 +1001,28 @@ firewall_definitions = {
         "propertyOrder": 4,
     },
     "src_ip": {
-        "type": ["string", "array"],
-        "title": "src_ip",
+        "type": "array",
+        "title": "Source address",
         "description": "Match incoming traffic from the specified source ip "
         "address.",
+        "uniqueItems": True,
         "items": {
+            "title": "Source adress",
             "type": "string",
-            "oneOf": [{"pattern": ipv4_cidr_regex}, {"pattern": ipv6_cidr_regex}],
+            "pattern": ipv4_and_ipv6_cidr_regex,
         },
         "propertyOrder": 5,
     },
     "src_mac": {
         "type": "string",
-        "title": "src_mac",
+        "title": "Source MAC address",
         "description": "Match incoming traffic from the specified MAC address.",
         "pattern": mac_address_regex,
-        "minLength": 17,
-        "maxLength": 17,
         "propertyOrder": 6,
     },
     "src_port": {
         "type": "string",
-        "title": "src_port",
+        "title": "Source port",
         "description": "Match incoming traffic originating from the given source "
         "port or port range on the client host.",
         "pattern": port_range_regex,
@@ -1027,7 +1030,7 @@ firewall_definitions = {
     },
     "proto": {
         "type": "array",
-        "title": "proto",
+        "title": "Protocol",
         "description": "Match incoming traffic using the given protocol. "
         "Can be one of tcp, udp, tcpudp, udplite, icmp, esp, "
         "ah, sctp, or all or it can be a numeric value, "
@@ -1040,7 +1043,7 @@ firewall_definitions = {
     },
     "dest": {
         "type": "string",
-        "title": "dest",
+        "title": "Destination zone",
         "description": "Specifies the traffic destination zone. Must refer to "
         "on of the defined zone names. For DNAT target on Attitude Adjustment, "
         'NAT reflection works only if this is equal to "lan".',
@@ -1048,23 +1051,23 @@ firewall_definitions = {
         "propertyOrder": 9,
     },
     "dest_ip": {
-        "type": ["string", "array"],
-        "title": "dest_ip",
+        "type": "array",
+        "title": "Destination address",
         "description": "For DNAT, redirect matches incoming traffic to the "
         "specified internal host. For SNAT, it matches traffic directed at "
         "the given address. For DNAT, if the dest_ip is not specified, the rule "
         "is translated in a iptables/REDIRECT rule, otherwise it is a "
         "iptables/DNAT rule.",
         "items": {
+            "title": "dest_ip",
             "type": "string",
-            "oneOf": [{"pattern": ipv4_cidr_regex}, {"pattern": ipv6_cidr_regex}],
+            "pattern": ipv4_and_ipv6_cidr_regex,
         },
-        # "format": "ipv4",
         "propertyOrder": 10,
     },
     "dest_port": {
         "type": "string",
-        "title": "dest_port",
+        "title": "Destination port",
         "description": "For DNAT, redirect matched incoming traffic to the given "
         "port on the internal host. For SNAT, match traffic directed at the "
         "given ports. Only a single port or range can be specified.",
@@ -1073,14 +1076,14 @@ firewall_definitions = {
     },
     "ipset": {
         "type": "string",
-        "title": "ipset",
+        "title": "IP Set",
         "description": "Match traffic against the given ipset. The match can be "
         "inverted by prefixing the value with an exclamation mark.",
         "propertyOrder": 12,
     },
     "mark": {
         "type": "string",
-        "title": "mark",
+        "title": "Match mark",
         "description": 'Match traffic against the given firewall mark, e.g. '
         '"0xFF" to match mark 255 or "0x0/0x1" to match any even mark value. '
         'The match can be inverted by prefixing the value with an exclamation '
@@ -1089,7 +1092,7 @@ firewall_definitions = {
     },
     "start_date": {
         "type": "string",
-        "title": "start_date",
+        "title": "Start date",
         "description": "Only match traffic after the given date (inclusive).",
         "pattern": date_regex,
         # "format": "date", TODO: replace pattern with this
@@ -1098,7 +1101,7 @@ firewall_definitions = {
     },
     "stop_date": {
         "type": "string",
-        "title": "stop_date",
+        "title": "Stop date",
         "description": "Only match traffic before the given date (inclusive).",
         "pattern": date_regex,
         # "format": "date", TODO: replace pattern with this
@@ -1107,14 +1110,14 @@ firewall_definitions = {
     },
     "start_time": {
         "type": "string",
-        "title": "start_time",
+        "title": "Start time",
         "description": "Only match traffic after the given time of day " "(inclusive).",
         "pattern": time_regex,
         "propertyOrder": 16,
     },
     "stop_time": {
         "type": "string",
-        "title": "stop_time",
+        "title": "Stop time",
         "description": "Only match traffic before the given time of day "
         "(inclusive).",
         "pattern": time_regex,
@@ -1124,14 +1127,14 @@ firewall_definitions = {
     # the UCI syntax does, as it's not necessary.
     "weekdays": {
         "type": "array",
-        "title": "weekdays",
+        "title": "Weekdays",
         "description": "Only match traffic during the given week days, "
         'e.g. ["sun", "mon", "thu", "fri"] to only match on Sundays, '
         "Mondays, Thursdays and Fridays.",
         "propertyOrder": 18,
         "items": {
             "type": "string",
-            "title": "weekday",
+            "title": "Weekday",
             "enum": ["mon", "tue", "wed", "thu", "fri", "sat", "sun"],
         },
     },
@@ -1139,7 +1142,7 @@ firewall_definitions = {
     # the UCI syntax does, as it's not necessary.
     "monthdays": {
         "type": "array",
-        "title": "monthdays",
+        "title": "Monthdays",
         "description": "Only match traffic during the given days of the "
         "month, e.g. [2, 5, 30] to only match on every 2nd, 5th and 30th "
         "day of the month.",
@@ -1153,7 +1156,7 @@ firewall_definitions = {
     },
     "utc_time": {
         "type": "boolean",
-        "title": "utc_time",
+        "title": "UTC time",
         "description": "Treat all given time values as UTC time instead of local "
         "time.",
         "default": False,
@@ -1161,7 +1164,7 @@ firewall_definitions = {
     },
     "family": {
         "type": "string",
-        "title": "family",
+        "title": "Family",
         "description": "Protocol family (ipv4, ipv6 or any) to generate iptables "
         "rules for",
         "enum": ["ipv4", "ipv6", "any"],
@@ -1170,7 +1173,7 @@ firewall_definitions = {
     },
     "limit": {
         "type": "string",
-        "title": "limit",
+        "title": "Limit",
         "description": "Maximum average matching rate; specified as a number, "
         "with an optional /second, /minute, /hour or /day suffix. "
         "Examples: 3/second, 3/sec or 3/s.",
@@ -1178,7 +1181,7 @@ firewall_definitions = {
     },
     "limit_burst": {
         "type": "integer",
-        "title": "limit_burst",
+        "title": "Limit burst",
         "description": "Maximum initial number of packets to match, allowing a "
         "short-term average above limit.",
         "default": 5,
@@ -1210,7 +1213,7 @@ firewall_includes_properties = {
     "family": {"$ref": "#/definitions/family"},
     "type": {
         "type": "string",
-        "title": "The type of the script",
+        "title": "Type of the script",
         "description": 'Specifies the type of the include, can be "script" for traditional '
         'shell script includes or restore for plain files in iptables-restore format.',
         "enum": ["script", "restore"],
@@ -1238,12 +1241,7 @@ firewall_redirect_properties = {
     "name": {"$ref": "#/definitions/name"},
     "enabled": {"$ref": "#/definitions/enabled"},
     "src": {"$ref": "#/definitions/src"},
-    "src_ip": {
-        "allOf": [
-            {"$ref": "#/definitions/src_ip"},
-            {"pattern": ipv4_cidr_regex},
-        ],
-    },
+    "src_ip": {"$ref": "#/definitions/src_ip"},
     "src_mac": {"$ref": "#/definitions/src_mac"},
     "src_port": {"$ref": "#/definitions/src_port"},
     "proto": {"$ref": "#/definitions/proto"},
@@ -1264,7 +1262,7 @@ firewall_redirect_properties = {
     "limit_burst": {"$ref": "#/definitions/limit_burst"},
     "src_dip": {
         "type": "string",
-        "title": "src_dip",
+        "title": "Source DIP",
         "description": "For DNAT, match incoming traffic directed at the "
         "given destination ip address. For SNAT rewrite the source address "
         "to the given address.",
@@ -1273,7 +1271,7 @@ firewall_redirect_properties = {
     },
     "src_dport": {
         "type": "string",
-        "title": "src_dport",
+        "title": "Source DPORT",
         "description": "For DNAT, match incoming traffic directed at the given "
         "destination port or port range on this host. For SNAT rewrite the "
         "source ports to the given value.",
@@ -1282,7 +1280,7 @@ firewall_redirect_properties = {
     },
     "reflection": {
         "type": "boolean",
-        "title": "reflection",
+        "title": "Reflection",
         "description": "Activate NAT reflection for this redirect. Applicable to "
         "DNAT targets.",
         "default": True,
@@ -1290,7 +1288,7 @@ firewall_redirect_properties = {
     },
     "reflection_src": {
         "type": "string",
-        "title": "reflection_src",
+        "title": "Reflection source",
         "description": "The source address to use for NAT-reflected packets if "
         "reflection is True. This can be internal or external, specifying which "
         "interface’s address to use. Applicable to DNAT targets.",
@@ -1300,7 +1298,7 @@ firewall_redirect_properties = {
     },
     "target": {
         "type": "string",
-        "title": "target",
+        "title": "Target",
         "description": "NAT target (DNAT or SNAT) to use when generating the rule.",
         "enum": ["DNAT", "SNAT"],
         "default": "DNAT",
@@ -1312,9 +1310,7 @@ firewall_rules_properties = {
     "name": {"$ref": "#/definitions/name"},
     "enabled": {"$ref": "#/definitions/enabled"},
     "src": {"$ref": "#/definitions/src"},
-    "src_ip": {
-        "allOf": [{"$ref": "#/definitions/src_ip"}],
-    },
+    "src_ip": {"$ref": "#/definitions/src_ip"},
     "src_mac": {"$ref": "#/definitions/src_mac"},
     "src_port": {"$ref": "#/definitions/src_port"},
     "proto": {"$ref": "#/definitions/proto"},
@@ -1334,10 +1330,10 @@ firewall_rules_properties = {
     "limit": {"$ref": "#/definitions/limit"},
     "limit_burst": {"$ref": "#/definitions/limit_burst"},
     "icmp_type": {
-        "title": "icmp_type",
+        "title": "ICMP type",
         "description": "For protocol icmp select specific icmp types to match. "
         "Values can be either exact icmp type numbers or type names.",
-        "type": ["array", "string"],
+        "type": "array",
         "uniqueItems": True,
         "additionalItems": True,
         "propertyOrder": 101,
@@ -1347,7 +1343,7 @@ firewall_rules_properties = {
         "allOf": [
             {"$ref": "#/definitions/rule_policy"},
             {
-                "title": "target",
+                "title": "Target",
                 "description": "firewall action for matched traffic",
                 "propertyOrder": 11,
             },
@@ -1383,7 +1379,7 @@ firewall_zones_properties = {
     },
     "masq": {
         "type": "boolean",
-        "title": "masq",
+        "title": "Masquerading",
         "description": "Specifies whether outgoing zone traffic should be "
         "masqueraded.",
         "default": False,
@@ -1392,7 +1388,7 @@ firewall_zones_properties = {
     },
     "mtu_fix": {
         "type": "boolean",
-        "title": "mtu_fix",
+        "title": "MSS clamping",
         "description": "Enable MSS clamping for outgoing zone traffic.",
         "default": False,
         "format": "checkbox",
@@ -1422,7 +1418,7 @@ firewall_zones_properties = {
         "allOf": [
             {"$ref": "#/definitions/zone_policy"},
             {
-                "title": "Forward policy.",
+                "title": "Forward policy",
                 "description": "Default policy for forwarded zone traffic.",
                 "propertyOrder": 7,
             },
@@ -1430,14 +1426,14 @@ firewall_zones_properties = {
     },
     "masq_src": {
         "type": "array",
-        "title": "Masqueraded source CIDR list.",
+        "title": "Masqueraded source CIDR list",
         "description": "List of source IPv4 CIDRs that require masquerading.",
         "propertyOrder": 8,
         "items": {
             "allOf": [
                 {"$ref": "#/definitions/ipv4_cidr"},
                 {
-                    "title": "Masqueraded source CIDR.",
+                    "title": "Masqueraded source CIDR",
                     "description": "Source CIDR to enable masquerading for. "
                     'Negation is possible by prefixing the subnet with a "!". ',
                 },
@@ -1446,14 +1442,14 @@ firewall_zones_properties = {
     },
     "masq_dest": {
         "type": "array",
-        "title": "Masqueraded destination CIDR list.",
+        "title": "Masqueraded destination CIDR list",
         "description": "List of destination IPv4 CIDRs that require masquerading.",
         "propertyOrder": 9,
         "items": {
             "allOf": [
                 {"$ref": "#/definitions/ipv4_cidr"},
                 {
-                    "title": "Masquerade destination CIDR.",
+                    "title": "Masquerade destination CIDR",
                     "description": "Destination CIDR to enable masquerading for. "
                     'Negation is possible by prefixing the subnet with a "!". ',
                 },
@@ -1462,7 +1458,7 @@ firewall_zones_properties = {
     },
     "masq_allow_invalid": {
         "type": "boolean",
-        "title": "Allow invalid packets.",
+        "title": "Allow invalid packets",
         "description": "Do not add DROP INVALID rules to the firewall if masquerading "
         "is used. The DROP rules are supposed to prevent NAT leakage.",
         "default": False,
@@ -1472,7 +1468,7 @@ firewall_zones_properties = {
     "family": {"$ref": "#/definitions/family"},
     "log": {
         "type": "string",  # check if it's an integer
-        "title": "Enable logging for the filter and/or mangle table.",
+        "title": "Enable logging for the filter and/or mangle table",
         "description": "Bit field to enable logging in the filter and/or mangle tables, "
         "bit 0 = filter, bit 1 = mangle.",
         "min": "0",
@@ -1482,7 +1478,7 @@ firewall_zones_properties = {
     },
     "log_limit": {
         "type": "string",
-        "title": "Limit on the number of log messages.",
+        "title": "Limit on the number of log messages",
         "description": "Limits the amount of log messages per interval. For example, "
         '"10/minute" will limit the logging to 10 messages per minute',
         "default": "10/minute",
@@ -1490,7 +1486,7 @@ firewall_zones_properties = {
     },
     "device": {
         "type": "array",
-        "title": "Raw devices to attach to this zone.",
+        "title": "Raw devices to attach to this zone",
         "description": "A list of raw device names to associate with this zone. ",
         "items": {
             "type": "string",
@@ -1533,7 +1529,7 @@ firewall_defaults = {
     },
     "drop_invalid": {
         "type": "boolean",
-        "title": "Drop invalid packets.",
+        "title": "Drop invalid packets",
         "description": "If True then any invalid packets will be dropped.",
         "default": False,
         "format": "checkbox",
@@ -1541,7 +1537,7 @@ firewall_defaults = {
     },
     "synflood_protect": {
         "type": "boolean",
-        "title": "Enable SYN flood protection.",
+        "title": "Enable SYN flood protection",
         "description": "Enables SYN flood protection.",
         "default": False,
         "format": "checkbox",
@@ -1557,8 +1553,7 @@ firewall_defaults = {
     },
     "synflood_burst": {
         "type": "integer",
-        "title": "Burst limit (packets/second) for SYN packets above which the traffic is considered a "
-        "flood.",
+        "title": "Burst limit (packets/second) for SYN packets",
         "description": "Set burst limit for SYN packets above which the traffic is considered a flood if it "
         "exceeds the allowed rate.",
         "default": 50,
@@ -1566,7 +1561,7 @@ firewall_defaults = {
     },
     "tcp_syncookies": {
         "type": "boolean",
-        "title": "Enable the use of TCP SYN cookies.",
+        "title": "Enable the use of TCP SYN cookies",
         "description": "If True, enables the use of SYN cookies.",
         "default": True,
         "format": "checkbox",
@@ -1574,7 +1569,7 @@ firewall_defaults = {
     },
     "tcp_ecn": {
         "type": "boolean",
-        "title": "Enable Explicit Congestion Notification.",
+        "title": "Enable Explicit Congestion Notification",
         "description": "If True, enables Explicit Congestion Notification.",
         "default": False,
         "format": "checkbox",
@@ -1582,7 +1577,7 @@ firewall_defaults = {
     },
     "tcp_window_scaling": {
         "type": "boolean",
-        "title": "Enable TCP window scaling.",
+        "title": "Enable TCP window scaling",
         "description": "If True, enables TCP window scaling.",
         "default": True,
         "format": "checkbox",
@@ -1590,7 +1585,7 @@ firewall_defaults = {
     },
     "accept_redirects": {
         "type": "boolean",
-        "title": "Accept redirects.",
+        "title": "Accept redirects",
         "description": "If True, accept redirects.",
         "default": False,
         "format": "checkbox",
@@ -1598,7 +1593,7 @@ firewall_defaults = {
     },
     "accept_source_route": {
         "type": "boolean",
-        "title": "Accept source routes.",
+        "title": "Accept source routes",
         "description": "If True, accept source routes.",
         "default": False,
         "format": "checkbox",
@@ -1606,7 +1601,7 @@ firewall_defaults = {
     },
     "custom_chains": {
         "type": "boolean",
-        "title": "Enable generation of custom rule chain hooks for user generated rules.",
+        "title": "Enable generation of custom rule chain hooks for user generated rules",
         "description": "If True, enable generation of custom rule chain hooks for user generated rules. "
         "User rules would be typically stored in firewall.user but some packages e.g. BCP38 also make use "
         "of these hooks.",
@@ -1616,13 +1611,13 @@ firewall_defaults = {
     },
     "disable_ipv6": {
         "type": "boolean",
-        "title": "Disable IPv6 firewall rules.",
+        "title": "Disable IPv6 firewall rules",
         "description": "If True, disable IPv6 firewall rules.",
         "default": False,
         "format": "checkbox",
         "propertyOrder": 14,
     },
-    "flow_offlocaing": {
+    "flow_offloading": {
         "type": "boolean",
         "title": "Enable software flow offloading for connections.",
         "description": "If True, enable software flow offloading for connections.",
@@ -1630,9 +1625,9 @@ firewall_defaults = {
         "format": "checkbox",
         "propertyOrder": 15,
     },
-    "flow_offlocaing_hw": {
+    "flow_offloading_hw": {
         "type": "boolean",
-        "title": "Enable hardware flow offloading for connections.",
+        "title": "Enable hardware flow offloading for connections",
         "description": "If True, enable hardware flow offloading for connections.",
         "default": False,
         "format": "checkbox",
@@ -1640,7 +1635,7 @@ firewall_defaults = {
     },
     "auto_helper": {
         "type": "boolean",
-        "title": "Enable Conntrack helpers ",
+        "title": "Enable Conntrack helpers",
         "description": "If True, enable Conntrack helpers ",
         "default": True,
         "format": "checkbox",
@@ -1691,7 +1686,7 @@ firewall_properties = {
             "type": "object",
             "title": "Rules",
             "additionalProperties": True,
-            "required": ["src", "target"],
+            "required": ["target"],
             "properties": firewall_rules_properties,
         },
     },
@@ -1734,6 +1729,432 @@ firewall = {
 }
 
 schema = merge_config(schema, firewall)
+
+mwan3 = {
+    "properties": {
+        "mwan3": {
+            "type": "object",
+            "title": "Mwan3",
+            "additionalProperties": True,
+            "propertyOrder": 12,
+            "properties": {
+                "globals": {
+                    "type": "object",
+                    "title": "Globals",
+                    "description": "Globals for mwan3",
+                    "propertyOrder": 1,
+                    "required": [
+                        "mmx_mask",
+                    ],
+                    "properties": {
+                        "mmx_mask": {
+                            "type": "string",
+                            "title": "Firewall mask",
+                            "description": "Enter value in hex, starting with 0x",
+                            "propertyOrder": 1,
+                            "default": "0x3F00",
+                        },
+                        "logging": {
+                            "type": "boolean",
+                            "title": "Logging",
+                            "description": "Global firewall logging. "
+                            "This must be enabled for any rule specific logging to occur",
+                            "propertyOrder": 2,
+                            "default": False,
+                        },
+                        "loglevel": {
+                            "type": "string",
+                            "title": "Log Level",
+                            "description": "Firewall loglevel",
+                            "enum": [
+                                "emerg",
+                                "alert",
+                                "crit",
+                                "error",
+                                "warning",
+                                "notice",
+                                "info",
+                                "debug",
+                            ],
+                            "default": "notice",
+                            "propertyOrder": 3,
+                        },
+                        "rt_table_lookup": {
+                            "type": "number",
+                            "title": "Routing table lookup",
+                            "description": "Specify an additional routing table to be scanned  "
+                            "for connected networks. In default config leave empty",
+                            "propertyOrder": 4,
+                        },
+                    },
+                },
+                "interfaces": {
+                    "type": "array",
+                    "title": "Interfaces",
+                    "propertyOrder": 2,
+                    "items": {
+                        "type": "object",
+                        "title": "Interface",
+                        "additionalProperties": True,
+                        "required": [
+                            "name",
+                        ],
+                        "properties": {
+                            "name": {
+                                "type": "string",
+                                "title": "Interface name",
+                                "description": "OpenWrt interface name",
+                                "propertyOrder": 1,
+                            },
+                            "enabled": {
+                                "type": "boolean",
+                                "title": "Enabled",
+                                "description": "Specifies whether mwan3 should run on this interface",
+                                "default": True,
+                                "format": "checkbox",
+                                "propertyOrder": 2,
+                            },
+                            "track_method": {
+                                "type": "string",
+                                "title": "Tracking method",
+                                "description": "Tracking method for mwan3track",
+                                "enum": [
+                                    "ping",
+                                    # "arping", #not working on openwrt
+                                    # "httping",
+                                    # "nping-tcp",
+                                    # "nping-udp",
+                                    # "nping-icmp",
+                                    # "nping-arp", 
+                                ],
+                                "default": "ping",
+                                "propertyOrder": 3,
+                            },
+                            "track_ip": {
+                                "title": "Tracking IPs",
+                                "description": "List of IPs to ping to test the interface. If this list "
+                                "is empty then the interface is always considered up",
+                                "type": "array",
+                                "uniqueItems": True,
+                                "additionalItems": True,
+                                "items": {
+                                    "type": "string",
+                                    "title": "ipv4 address",
+                                    "minLength": 7,
+                                    "maxLength": 15,
+                                    "format": "ipv4",
+                                },
+                                "propertyOrder": 4,
+                            },
+                            "reliability": {
+                                "type": "integer",
+                                "title": "Reliability",
+                                "description": "Number of track_ip hosts that must reply for the test to"
+                                " be considered successful. Ensure there are at least this"
+                                " many track_ip hosts defined or the interface will always"
+                                " be considered down",
+                                "default": 1,
+                                "propertyOrder": 5,
+                            },
+                            "count": {
+                                "type": "integer",
+                                "title": "Count",
+                                "description": "Number of checks to send to each host with each test",
+                                "default": 1,
+                                "propertyOrder": 6,
+                            },
+                            "timeout": {
+                                "type": "integer",
+                                "title": "Timeout",
+                                "description": "Number of seconds to wait for an echo-reply after an "
+                                "echo-request",
+                                "default": 4,
+                                "propertyOrder": 7,
+                            },
+                            "interval": {
+                                "type": "integer",
+                                "title": "Interval",
+                                "description": "Number of seconds between each test",
+                                "default": 10,
+                                "propertyOrder": 8,
+                            },
+                            "failure_interval": {
+                                "type": "integer",
+                                "title": "Failure interval",
+                                "description": "Number of seconds between each test during teardown on "
+                                "failure detection",
+                                "propertyOrder": 9,
+                            },
+                            "recovery_interval": {
+                                "type": "integer",
+                                "title": "Recovery interval",
+                                "description": "Number of seconds between each test during tearup on "
+                                "recovery detection",
+                                "propertyOrder": 10,
+                            },
+                            "keep_failure_interval": {
+                                "type": "boolean",
+                                "title": "Keep failure interval",
+                                "description": "In the event of an error, keep the number of seconds "
+                                "between each test during teardown (failure detection)",
+                                "default": False,
+                                "format": "checkbox",
+                                "propertyOrder": 11,
+                            },
+                            "check_quality": {
+                                "type": "boolean",
+                                "title": "Check link quality",
+                                "description": "In addition to the interface being up, the check_quality "
+                                "options can check the overall link quality "
+                                "with packet loss and/or latency measurements",
+                                "default": False,
+                                "format": "checkbox",
+                                "propertyOrder": 12,
+                            },
+                            "up": {
+                                "type": "integer",
+                                "title": "Up",
+                                "description": "Number of successful tests to consider link as alive",
+                                "default": 5,
+                                "propertyOrder": 13,
+                            },
+                            "down": {
+                                "type": "integer",
+                                "title": "Down",
+                                "description": "Number of failed tests to consider link as dead",
+                                "default": 5,
+                                "propertyOrder": 14,
+                            },
+                            "family": {
+                                "type": "string",
+                                "title": "Family",
+                                "description": "The specific protocol family this interface handles",
+                                "enum": [
+                                    "ipv4",
+                                    "ipv6",
+                                ],
+                                "default": "ipv4",
+                                "propertyOrder": 15,
+                            },
+                            "max_ttl": {
+                                "type": "integer",
+                                "title": "Time to live",
+                                "description": "Time to live (TTL) or hop limit. Only valid if tracking "
+                                "method is ping.",
+                                "default": 60,
+                                "propertyOrder": 16,
+                            },
+                            "initial_state": {
+                                "type": "string",
+                                "title": "Initial state",
+                                "description": "If the value is offline, then traffic goes via this "
+                                "interface only if mwan3track checked the connection "
+                                "first. If the value is online, then the mwan3track "
+                                "test is not waited for. The interface is marked as "
+                                "online at once.",
+                                "enum": [
+                                    "online",
+                                    "offline",
+                                ],
+                                "default": "online",
+                                "propertyOrder": 17,
+                            },
+                            "size": {
+                                "type": "integer",
+                                "title": "Size",
+                                "description": "Size of ping packets to use in bytes. Only valid if "
+                                "tracking method is ping.",
+                                "default": 56,
+                                "propertyOrder": 18,
+                            },
+                            "flush_conntrack": {
+                                "title": "Flush connection tracking",
+                                "description": "specifies upon which events the connections table should"
+                                " be flushed",
+                                "type": "array",
+                                # commented because the front end gives a strange error
+                                # "uniqueItems": True,
+                                "additionalItems": True,
+                                "items": {
+                                    "type": "string",
+                                    "enum": [
+                                        "ifup",
+                                        "ifdown",
+                                        "connected",
+                                        "disconnected",
+                                    ],
+                                },
+                                "propertyOrder": 19,
+                            },
+                        },
+                    },
+                },
+                "members": {
+                    "type": "array",
+                    "title": "Members",
+                    "propertyOrder": 3,
+                    "items": {
+                        "type": "object",
+                        "title": "Members",
+                        "additionalProperties": True,
+                        "required": ["name", "interface"],
+                        "properties": {
+                            "name": {
+                                "type": "string",
+                                "title": "Name",
+                                "description": "The name of this member configuration "
+                                ",which is then referenced in policies",
+                                "propertyOrder": 1,
+                            },
+                            "interface": {
+                                "type": "string",
+                                "title": "Interface",
+                                "description": "Member applies to this interface "
+                                "(use the same interface name as used in the mwan3 "
+                                "interface section, above)",
+                                "propertyOrder": 2,
+                            },
+                            "metric": {
+                                "type": "integer",
+                                "title": "Metric",
+                                "description": "Members within one policy with a lower "
+                                "metric have precedence over higher metric members",
+                                "default": 1,
+                                "propertyOrder": 3,
+                            },
+                            "weight": {
+                                "type": "integer",
+                                "title": "Weight",
+                                "description": "Members with same metric will distribute "
+                                "load based on this weight value",
+                                "default": 1,
+                                "propertyOrder": 4,
+                            },
+                        },
+                    },
+                },
+                "policies": {
+                    "type": "array",
+                    "title": "Policy",
+                    "propertyOrder": 4,
+                    "items": {
+                        "type": "object",
+                        "title": "Policy",
+                        "additionalProperties": True,
+                        "required": ["name", "use_member"],
+                        "properties": {
+                            "name": {
+                                "type": "string",
+                                "title": "Name",
+                                "description": "The unique name of the policy. "
+                                "Must be no more than 15 characters",
+                                "propertyOrder": 1,
+                            },
+                            "use_member": {
+                                "type": "array",
+                                "title": "Members assigned",
+                                "description": "One or more members assigned to this policy",
+                                "items": {
+                                    "title": "Member used",
+                                    "type": "string",
+                                },
+                                "propertyOrder": 2,
+                            },
+                            "last_resort": {
+                                "type": "string",
+                                "title": "Last resort",
+                                "description": "Determine the fallback routing "
+                                "behaviour if all WAN members in the policy are down",
+                                "enum": ["unreachable", "blackhole", "default"],
+                                "default": "unreachable",
+                                "propertyOrder": 3,
+                            },
+                        },
+                    },
+                },
+                "rules": {
+                    "type": "array",
+                    "title": "Rules",
+                    "propertyOrder": 5,
+                    "items": {
+                        "type": "object",
+                        "title": "Rules",
+                        "additionalProperties": True,
+                        "required": ["name", "use_policy"],
+                        "properties": {
+                            "name": {
+                                "type": "string",
+                                "title": "Name",
+                                "description": "The unique name of the rule. "
+                                "Must be no more than 15 characters",
+                                "propertyOrder": 1,
+                            },
+                            "use_policy": {
+                                "type": "string",
+                                "title": "Use policy",
+                                "description": "Use this policy for traffic that matches or set to "
+                                "default to use the default routing table to lookup",
+                                "default": "default",
+                                "propertyOrder": 2,
+                            },
+                            # check description
+                            "src_ip": {
+                                "$ref": "#/definitions/src_ip",
+                                "propertyOrder": 3,
+                            },
+                            "src_port": {
+                                "$ref": "#/definitions/src_port",
+                                "propertyOrder": 4,
+                            },
+                            "proto": {
+                                "$ref": "#/definitions/proto",
+                                "propertyOrder": 5,
+                            },
+                            "dest_ip": {
+                                "$ref": "#/definitions/dest_ip",
+                                "propertyOrder": 6,
+                            },
+                            "dest_port": {
+                                "$ref": "#/definitions/dest_port",
+                                "propertyOrder": 7,
+                            },
+                            "ipset": {
+                                "$ref": "#/definitions/ipset",
+                                "propertyOrder": 8,
+                            },
+                            "sticky": {
+                                "type": "boolean",
+                                "title": "Sticky",
+                                "description": "Allow traffic from the same source "
+                                "IP address within the timeout limit to use"
+                                " same wan interface as prior session",
+                                "default": False,
+                                "propertyOrder": 9,
+                            },
+                            "timeout": {
+                                "type": "integer",
+                                "title": "Sticky",
+                                "description": "Stickiness timeout value in seconds",
+                                "default": 60,
+                                "propertyOrder": 10,
+                            },
+                            "family": {"$ref": "#/definitions/family"},
+                            "logging": {
+                                "type": "boolean",
+                                "title": "Enable logging",
+                                "description": "Enables firewall rule logging "
+                                "(global mwan3 logging setting must also be enabled)",
+                                "default": False,
+                                "propertyOrder": 11,
+                            },
+                        },
+                    },
+                },
+            },
+        }
+    },
+}
+schema = merge_config(schema, mwan3)
 
 # add OpenVPN schema
 schema = merge_config(schema, base_openvpn_schema)

@@ -99,7 +99,7 @@ class TestFirewall(unittest.TestCase, _TabsMixin):
                 {
                     "name": "Allow-MLD",
                     "src": "wan",
-                    "src_ip": "fe80::/10",
+                    "src_ip": ["fe80::/10"],
                     "proto": ["icmp"],
                     "icmp_type": ["130/0", "131/0", "132/0", "143/0"],
                     "target": "ACCEPT",
@@ -144,8 +144,8 @@ class TestFirewall(unittest.TestCase, _TabsMixin):
                 {
                     "name": "Allow-DHCPv6",
                     "src": "wan",
-                    "src_ip": "fc00::/6",
-                    "dest_ip": "fc00::/6",
+                    "src_ip": ["fc00::/6"],
+                    "dest_ip": ["fc00::/6"],
                     "dest_port": "546",
                     "proto": ["udp"],
                     "target": "ACCEPT",
@@ -267,7 +267,7 @@ class TestFirewall(unittest.TestCase, _TabsMixin):
             "rules": [
                 {
                     "name": "Allow-Isolated-DHCP",
-                    "src_ip": "10.10.10.10",
+                    "src_ip": ["10.10.10.10"],
                     "src_mac": "fc:aa:14:18:12:98",
                     "src": "isolated",
                     "proto": ["udp"],
@@ -309,14 +309,14 @@ class TestFirewall(unittest.TestCase, _TabsMixin):
             "rules": [
                 {
                     "name": "Allow-Isolated-DHCP",
-                    "src_ip": "10.10.10.10",
+                    "src_ip": ["10.10.10.10"],
                     "src_mac": "fc:aa:14:18:12:98",
                     "src": "isolated",
                     "proto": ["udp"],
                     "dest_port": "67-68",
                     "target": "ACCEPT",
                     "dest": "dest_zone",
-                    "dest_ip": "192.168.1.2",
+                    "dest_ip": ["192.168.1.2"],
                     "ipset": "my_ipset",
                     "mark": "DROP",
                     "start_date": "2021-01-21",
@@ -659,7 +659,8 @@ class TestFirewall(unittest.TestCase, _TabsMixin):
         config redirect 'Adblock DNS, port 53'
             option name 'Adblock DNS, port 53'
             option src 'lan'
-            option proto 'tcpudp'
+            list proto 'tcp'
+            list proto 'udp'
             option src_dport '53'
             option dest_port '53'
             option target 'DNAT'
@@ -702,7 +703,8 @@ class TestFirewall(unittest.TestCase, _TabsMixin):
         config redirect 'Adblock DNS, port 53'
             option name 'Adblock DNS, port 53'
             option src 'lan'
-            option proto 'tcpudp'
+            list proto 'tcp'
+            list proto 'udp'
             option src_dport '53'
             option dest_port '53'
             option target 'DNAT'
@@ -755,7 +757,8 @@ class TestFirewall(unittest.TestCase, _TabsMixin):
         config redirect 'Adblock DNS, port 53'
             option name 'Adblock DNS, port 53'
             option src 'lan'
-            option proto 'tcpudp'
+            list proto 'tcp'
+            list proto 'udp'
             option src_dport '53'
             option dest_port '53'
             option target 'DNAT'
@@ -821,7 +824,8 @@ class TestFirewall(unittest.TestCase, _TabsMixin):
         config redirect 'Adblock DNS, port 53'
             option name 'Adblock DNS, port 53'
             option src 'lan'
-            option proto 'tcpudp'
+            list proto 'tcp'
+            list proto 'udp'
             option src_dport '53'
             option dest_port '53'
             option target 'DNAT'
@@ -865,12 +869,12 @@ class TestFirewall(unittest.TestCase, _TabsMixin):
                     "target": "DNAT",
                     "weekdays": ["mon", "tue", "wed"],
                     "monthdays": [1, 2, 31],
-                    "src_ip": "192.168.1.1",
+                    "src_ip": ["192.168.1.1"],
                     "src_dip": "192.168.1.1",
                     "src_mac": "AA:AA:AA:AA:AA:AA",
                     "src_port": "1-1064",
                     "dest": "wan",
-                    "dest_ip": "10.0.0.1",
+                    "dest_ip": ["10.0.0.1"],
                     "ipset": "myipset",
                     "mark": "0xff",
                     "start_date": "2020-02-02",
