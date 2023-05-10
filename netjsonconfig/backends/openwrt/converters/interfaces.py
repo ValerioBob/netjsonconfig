@@ -227,7 +227,7 @@ class Interfaces(OpenWrtConverter):
 
     def _intermediate_8021_vlan(self, interface):
         interface['name'] = '{}.{}'.format(interface['ifname'], interface['vid'])
-        interface['.name'] = '{}_{}'.format(interface['.name'], interface['vid'])
+        # interface['.name'] = '{}_{}'.format(interface['.name'], interface['vid'])
         return interface
 
     def _intermediate_8021q(self, interface):
@@ -309,7 +309,7 @@ class Interfaces(OpenWrtConverter):
                     'egress_qos_mapping': interface.pop('egress_qos_mapping', []),
                 }
             )
-            interface['.name'] = 'vlan_{}'.format(interface['.name'])
+            # interface['.name'] = 'vlan_{}'.format(interface['.name'])
             interface['device'] = device['name']
         if interface_type != 'bridge':
             # A non-bridge interface that contains L2 options.
